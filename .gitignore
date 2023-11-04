@@ -12,3 +12,7 @@ node_modules
 
 # Ignore SASS config files
 .sass-cache
+
+
+# Adding config.py file
+api_keys.py
