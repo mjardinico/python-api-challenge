@@ -16,3 +16,7 @@ node_modules
 
 # Adding config.py file
 api_keys.py
+
+
+#Ignore files with copy in the filename
+*copy*
