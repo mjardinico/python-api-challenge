@@ -28,14 +28,14 @@ Follow these steps to set up the project environment:
 
 1. Create a new repository on GitHub named `python-api-challenge`.
 2. Clone the repository to your local machine.
-3. Within your local repository, create a directory named `WeatherPy`.
+3. Within your local repository, create a directory named `WeatherPy` and `.gitignore` file.
 4. Inside the `WeatherPy` directory, create the following files and folder:
     - WeatherPy.ipynb
     - VacationPy.ipynb
     - api_keys.py
     - output_data/
 
-5. In `WeatherPy.ipynb`, start by importing the necessary libraries and setting up the environment:
+5. PART 1: In `WeatherPy.ipynb`, start by importing the necessary libraries and setting up the environment:
 
     import matplotlib.pyplot as plt
     import pandas as pd
@@ -279,14 +279,155 @@ Follow these steps to set up the project environment:
     y_label = 'Wind Speed'
     linear_regression_plot(x_values,y_values,x_label,y_label)
 
+17. PART 2: In `Vacation.ipynb`, start by importing the necessary libraries and setting up the environment:
+
+    import hvplot.pandas
+    import pandas as pd
+    import requests
+    import numpy as np
+    import requests
+    from pprint import pprint
+    from api_keys import geoapify_key
+
+    # Load the CSV file created in Part 1 into a Pandas DataFrame
+    city_data_df = pd.read_csv("output_data/cities.csv")
+
+    # Display sample data
+    city_data_df.head(50)
+
+18. Step 1: Create a map that displays a point for every city in the city_data_df DataFrame. The size of the point should be the humidity in each city.
+
+    # Assign colors to cities to be plotted
+    unique_humidity_colors = city_data_df['Humidity'].unique()
+
+    # Generate a unique color for each unique humidity value
+    unique_colors = {
+        value: f"#{np.random.randint(0, 0xFFFFFF):06x}" for value in unique_humidity_colors
+    }
+
+    # Map the 'Humidity' column to the unique colors
+    city_data_df['color'] = city_data_df['Humidity'].map(unique_colors)
+
+    # Let's set the opacity of each humidy color by adjusting the alpha value
+    alpha_value=0.5
 
 
+19. Generate the City Humidity Map
+    %%capture --no-display
 
-## Contributing
-Contributions to this project are welcome. Please ensure that any pull requests are clearly described and have been tested before submission.
+    # Configure the map plot
+    humidity_map = city_data_df.hvplot.points(
+        'Lng', 'Lat', 
+        geo=True, 
+        size='Humidity', 
+        hover_cols=['City','Humidity'],
+        # tiles='OSM',  #Open Street Map
+        tiles=True,  #Open Street Map
+        color='color',
+        alpha=alpha_value,
+        cmap='blues',
+        frame_width=600,
+        frame_height=400,
+        title='City Humidity Map'
+    )
 
-## License
-TBD
+    # Display the map
+    humidity_map
+
+
+20. Step 2: Narrow down the city_data_df DataFrame to find your ideal weather condition
+    # Narrow down cities that fit criteria and drop any results with null values
+    clean_city_data_df = city_data_df.replace(0, pd.NA).dropna()
+
+    # Display sample data
+    clean_city_data_df.tail(20)
+
+
+21. Step 3: Create a new DataFrame called hotel_df
+    # Use the Pandas copy function to create DataFrame called hotel_df to store the city, country, coordinates, and humidity
+    hotel_df = city_data_df[['City', 'Country', 'Lat', 'Lng', 'Humidity']].copy()
+
+    # Add an empty column, "Hotel Name," to the DataFrame so you can store the hotel found using the Geoapify API
+    hotel_df['Hotel Name'] = ""
+
+    # Display sample data
+    hotel_df
+
+
+22. Step 4. For each city, use the Geoapify API to find the first hotel located within 10,000 metres of your coordinates.
+
+    # Set parameters to search for a hotel
+    radius = 10000
+    params = {
+        "categories": "accommodation",
+        # "filter": f"circle:{longitude},{latitude},{radius}",
+        "apiKey": geoapify_key,
+        "limit": 1
+    }
+
+    # Print a message to follow up the hotel search
+    print("Starting hotel search")
+
+    # Iterate through the hotel_df DataFrame
+    for index, row in hotel_df.iterrows():
+        # get latitude, longitude from the DataFrame
+        latitude = row['Lat']
+        longitude = row['Lng']
+        
+        # Add filter and bias parameters with the current city's latitude and longitude to the params dictionary
+        params["filter"] = f"circle:{longitude},{latitude},{radius}"
+        params["bias"] = f"proximity:{longitude},{latitude}"
+    
+        # Set base URL
+        base_url = "https://api.geoapify.com/v2/places"
+
+
+        # Make and API request using the params dictionaty
+        response = requests.get(base_url, params=params)
+        
+        # Convert the API response to JSON format
+        name_address = response.json()
+        
+        # Grab the first hotel from the results and store the name in the hotel_df DataFrame
+        try:
+            hotel_df.loc[index, "Hotel Name"] = name_address["features"][0]["properties"]["name"]
+        except (KeyError, IndexError):
+            # If no hotel is found, set the hotel name as "No hotel found".
+            hotel_df.loc[index, "Hotel Name"] = "No hotel found"
+            
+        # Log the search results
+        print(f"{hotel_df.loc[index, 'City']} - nearest hotel: {hotel_df.loc[index, 'Hotel Name']}")
+
+    # Display sample data
+    hotel_df
+
+
+23. Step 5: Add the hotel name and the country as additional information in the hover message for each city in the map.
+    %%capture --no-display
+
+    # Configure the map plot
+    humidity_map = city_data_df.hvplot.points(
+        'Lng', 'Lat', 
+        geo=True, 
+        size='Humidity', 
+        hover_cols=['City','Humidity','Hotel Name', 'Country'],  #include 'Hotel Name' and 'Country'
+        # tiles='OSM',  #Open Street Map
+        tiles=True,  #Open Street Map
+        color='color',
+        alpha=alpha_value,
+        cmap='blues',
+        frame_width=600,
+        frame_height=400,
+        title='City Humidity Map'
+    )
+
+    # Display the map
+    humidity_map
+
+
+*** END OF CODE ***
+
+
 
 
 
