@@ -36,7 +36,7 @@ Follow these steps to set up the project environment:
     - output_data/
 
 5. PART 1: In `WeatherPy.ipynb`, start by importing the necessary libraries and setting up the environment:
-
+    ```
     import matplotlib.pyplot as plt
     import pandas as pd
     import numpy as np
@@ -46,6 +46,7 @@ Follow these steps to set up the project environment:
     from pprint import pprint
     from citipy import citipy
     from api_keys import weather_api_key   #include api_keys inside .gitignore
+    ```
 
 
 6. Generating the cities list using the `citipy` library.
@@ -86,6 +87,7 @@ Follow these steps to set up the project environment:
     url = "http://api.openweathermap.org/data/2.5/weather?"
 
     ### Data retrieval process
+    ```
     city_data = []
     record_count = 1
     set_count = 1
@@ -112,6 +114,7 @@ Follow these steps to set up the project environment:
             pass
 
     print("Data Retrieval Complete")
+    ```
 
     ### Convert the cities weather data into a Pandas DataFrame
     city_data_df = pd.DataFrame(city_data)
@@ -129,9 +132,11 @@ Follow these steps to set up the project environment:
     plt.scatter(city_data_df['Lat'], city_data_df['Max Temp'], marker="o", edgecolors='black', linewidth=1)
 
     ### Incorporate the other graph properties
+    ```
     plt.title("Latitude vs Temperature in World Cities")
     plt.ylabel("Temperature (Fahrenheit)")
     plt.xlabel("Latitude")
+    ```
 
     ### Save the figure
     plt.savefig("output_data/Fig1.png")
@@ -146,9 +151,11 @@ Follow these steps to set up the project environment:
     plt.scatter(city_data_df['Lat'], city_data_df['Humidity'], marker="o", edgecolors='blue', linewidth=1)
 
     ### Incorporate the other graph properties
+    ```
     plt.title("Latitude vs Humidity in World Cities")
     plt.ylabel("Humidity")
     plt.xlabel("Latitude")
+    ```
 
     ### Save the figure
     plt.savefig("output_data/Fig2.png")
@@ -162,9 +169,11 @@ Follow these steps to set up the project environment:
     plt.scatter(city_data_df['Lat'], city_data_df['Cloudiness'], marker="o", edgecolors="red", linewidth=1)
 
     ### Incorporate the other graph properties
+    ```
     plt.title("Latitude vs Cloudiness in World Cities")
     plt.ylabel("Cloudiness")
     plt.xlabel("Latitude")
+    ```
 
     ### Save the figure
     plt.savefig("output_data/Fig3.png")
@@ -178,9 +187,11 @@ Follow these steps to set up the project environment:
     plt.scatter(city_data_df['Lat'], city_data_df['Wind Speed'], marker='o', edgecolors='orange', linewidth=1)
 
     ### Incorporate the other graph properties
+    ```
     plt.title('Latitude vs Wind Speed in World Cities')
     plt.ylabel('Wind Speed')
     plt.xlabel('Latitude')
+    ```
 
     ### Save the figure
     plt.savefig("output_data/Fig4.png")
@@ -203,81 +214,103 @@ Follow these steps to set up the project environment:
     line_eq = "y = " + str(round(slope,2)) + "x +" + str(round(intercept,2))
     
     ### create plot
+    ```
     plt.scatter(x_values, y_values)
     plt.plot(x_values, regress_values, "r-")
+    ```
     
     ### label plot and annotate the line equation
+    ```
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.annotate(line_eq, (x_values.median(), y_values.median()), fontsize=15, color="red")
+    ```
     
     ### Show plot
+    ```
     plt.show()
     return slope, intercept, r_value, p_value, std_err
+    ```
 
 
 
 13. Create Linear Regression Plot of Temperature vs. Latitude
     ### Linear regression on Northern Hemisphere
+    ```
     x_values = northern_hemi_df['Lat']
     y_values = northern_hemi_df['Max Temp']
     x_label = 'Latitude'
     y_label = 'Temperature (F)'
     linear_regression_plot(x_values,y_values,x_label,y_label)
+    ```
 
     ### Linear regression on Southern Hemisphere
+    ```
     x_values = southern_hemi_df['Lat']
     y_values = southern_hemi_df['Max Temp']
     x_label = 'Latitude'
     y_label = 'Temperature (F)'
     linear_regression_plot(x_values,y_values,x_label,y_label)
+    ```
 
 
 14. Create Linear Regression Plot of Humidity vs. Latitude
     ### Northern Hemisphere
+    ```
     x_values = northern_hemi_df['Lat']
     y_values = northern_hemi_df['Humidity']
     x_label = 'Latitude'
     y_label = 'Humidity'
     linear_regression_plot(x_values,y_values,x_label,y_label)
+    ```
 
     ### Southern Hemisphere
+    ```
     x_values = southern_hemi_df['Lat']
     y_values = southern_hemi_df['Humidity']
     x_label = 'Latitude'
     y_label = 'Humidity'
     linear_regression_plot(x_values,y_values,x_label,y_label)
+    ```
 
 15. Create Linear Regression Plot of Cloudiness vs. Latitude
     ### Northern Hemisphere
+    ```
     x_values = northern_hemi_df['Lat']
     y_values = northern_hemi_df['Cloudiness']
     x_label = 'Latitude'
     y_label = 'Cloudiness'
     linear_regression_plot(x_values,y_values,x_label,y_label)
+    ```
 
     # Southern Hemisphere
+    ```
     x_values = southern_hemi_df['Lat']
     y_values = southern_hemi_df['Cloudiness']
     x_label = 'Latitude'
     y_label = 'Cloudiness'
     linear_regression_plot(x_values,y_values,x_label,y_label)
+    ```
 
 
 16. Create Linear Regression Plot of Wind Speed vs. Latitude
+    ```
     ### Northern Hemisphere
     x_values = northern_hemi_df['Lat']
     y_values = northern_hemi_df['Wind Speed']
     x_label = 'Latitude'
     y_label = 'Wind Speed'
     linear_regression_plot(x_values,y_values,x_label,y_label)
+    ```
 
     ### Southern Hemisphere
+    ```
     x_values = southern_hemi_df['Lat']
     y_values = southern_hemi_df['Wind Speed']
     x_label = 'Latitude'
     y_label = 'Wind Speed'
     linear_regression_plot(x_values,y_values,x_label,y_label)
+    ```
 
 17. PART 2: In `Vacation.ipynb`, start by importing the necessary libraries and setting up the environment:
 
@@ -316,6 +349,7 @@ Follow these steps to set up the project environment:
     %%capture --no-display
 
     ### Configure the map plot
+    ```
     humidity_map = city_data_df.hvplot.points(
         'Lng', 'Lat', 
         geo=True, 
@@ -329,6 +363,7 @@ Follow these steps to set up the project environment:
         frame_height=400,
         title='City Humidity Map'
     )
+    ```
 
     ### Display the map
     humidity_map
@@ -357,12 +392,14 @@ Follow these steps to set up the project environment:
 
     ### Set parameters to search for a hotel
     radius = 10000
+    ```
     params = {
         "categories": "accommodation",
         "filter": f"circle:{longitude},{latitude},{radius}",
         "apiKey": geoapify_key,
         "limit": 1
     }
+    ```
 
     ### Print a message to follow up the hotel search
     print("Starting hotel search")
@@ -405,7 +442,7 @@ Follow these steps to set up the project environment:
     %%capture --no-display
 
     ### Configure the map plot
-    humidity_map = city_data_df.hvplot.points(
+    ```humidity_map = city_data_df.hvplot.points(
         'Lng', 'Lat', 
         geo=True, 
         size='Humidity', 
@@ -417,7 +454,7 @@ Follow these steps to set up the project environment:
         frame_width=600,
         frame_height=400,
         title='City Humidity Map'
-    )
+    )```
 
     ### Display the map
     humidity_map
