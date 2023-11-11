@@ -49,10 +49,10 @@ Follow these steps to set up the project environment:
 
 
 6. Generating the cities list using the `citipy` library.
-   - One of the key features of this project is the generation of a list of cities based on random latitude and longitude.
-      - Create random latitude and longitude values
-      - Using hte 'citipy' library to find the nearest city to each latitude and longitude combination.
-      - Ensure uniqueness of each city in the final list.
+    - One of the key features of this project is the generation of a list of cities based on random latitude and longitude.
+    - Create random latitude and longitude values
+    - Using hte 'citipy' library to find the nearest city to each latitude and longitude combination.
+    - Ensure uniqueness of each city in the final list.
    
     ### Create a set of rand lat and lng combinations
     lats = np.random.uniform(-90, 90, size=1000)
@@ -321,8 +321,7 @@ Follow these steps to set up the project environment:
         geo=True, 
         size='Humidity', 
         hover_cols=['City','Humidity'],
-        # tiles='OSM',  #Open Street Map
-        tiles=True,  #Open Street Map
+        tiles=True,  
         color='color',
         alpha=alpha_value,
         cmap='blues',
@@ -360,7 +359,7 @@ Follow these steps to set up the project environment:
     radius = 10000
     params = {
         "categories": "accommodation",
-        # "filter": f"circle:{longitude},{latitude},{radius}",
+        "filter": f"circle:{longitude},{latitude},{radius}",
         "apiKey": geoapify_key,
         "limit": 1
     }
@@ -410,8 +409,7 @@ Follow these steps to set up the project environment:
         'Lng', 'Lat', 
         geo=True, 
         size='Humidity', 
-        hover_cols=['City','Humidity','Hotel Name', 'Country'],  #include 'Hotel Name' and 'Country'
-        # tiles='OSM',  #Open Street Map
+        hover_cols=['City','Humidity','Hotel Name', 'Country'],  
         tiles=True,  #Open Street Map
         color='color',
         alpha=alpha_value,
