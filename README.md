@@ -313,7 +313,7 @@ Follow these steps to set up the project environment:
     ```
 
 17. PART 2: In `Vacation.ipynb`, start by importing the necessary libraries and setting up the environment:
-
+    ```
     import hvplot.pandas
     import pandas as pd
     import requests
@@ -321,6 +321,7 @@ Follow these steps to set up the project environment:
     import requests
     from pprint import pprint
     from api_keys import geoapify_key
+    ```
 
     ### Load the CSV file created in Part 1 into a Pandas DataFrame
     city_data_df = pd.read_csv("output_data/cities.csv")
@@ -411,9 +412,10 @@ Follow these steps to set up the project environment:
         longitude = row['Lng']
         
         # Add filter and bias parameters with the current city's latitude and longitude to the params dictionary
+        ```
         params["filter"] = f"circle:{longitude},{latitude},{radius}"
         params["bias"] = f"proximity:{longitude},{latitude}"
-    
+  
         # Set base URL
         base_url = "https://api.geoapify.com/v2/places"
 
@@ -433,7 +435,8 @@ Follow these steps to set up the project environment:
             
         # Log the search results
         print(f"{hotel_df.loc[index, 'City']} - nearest hotel: {hotel_df.loc[index, 'Hotel Name']}")
-
+        ```
+        
     ### Display sample data
     hotel_df
 
